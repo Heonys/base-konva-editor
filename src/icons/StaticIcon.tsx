@@ -1,20 +1,21 @@
 import type { IconBaseProps } from "react-icons";
-import { HiOutlineArrowLongRight, HiOutlinePencil } from "react-icons/hi2";
+import { HiOutlinePencil } from "react-icons/hi2";
 import { TfiLayoutLineSolid } from "react-icons/tfi";
 import { IoEllipseOutline, IoSquareOutline, IoShapesOutline } from "react-icons/io5";
-import { LuEraser } from "react-icons/lu";
+import { LuEraser, LuUndo2, LuRedo2 } from "react-icons/lu";
 import { RiCursorFill } from "react-icons/ri";
 
 export type IconNames = keyof typeof IconMap;
 const IconMap = {
   ["draw"]: HiOutlinePencil,
-  ["arrow-right"]: HiOutlineArrowLongRight,
   ["line"]: TfiLayoutLineSolid,
   ["ellipse"]: IoEllipseOutline,
-  ["square"]: IoSquareOutline,
-  ["shape"]: IoShapesOutline,
+  ["rect"]: IoSquareOutline,
+  ["polygon"]: IoShapesOutline,
   ["cursor"]: RiCursorFill,
   ["eraser"]: LuEraser,
+  ["undo"]: LuUndo2,
+  ["redo"]: LuRedo2,
 };
 
 type Props = {

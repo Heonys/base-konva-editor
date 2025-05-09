@@ -1,12 +1,31 @@
-import { Stage, Layer, Rect, Circle, Text } from "react-konva";
+import { useRef } from "react";
+import Konva from "konva";
+import { Stage, Layer } from "react-konva";
+
+import { useStageHandlers, useDrawContext } from "@/hooks";
+import { LineShape } from "@/components/shapes";
+import { DrawType } from "@/types";
 
 export const Canvas = () => {
+  const stageRef = useRef<Konva.Stage>(null);
+  const handlers = useStageHandlers();
+  const { drawContext } = useDrawContext();
+
   return (
-    <Stage width={window.innerWidth} height={window.innerHeight}>
+    <Stage ref={stageRef} width={window.innerWidth} height={window.innerHeight} {...handlers}>
       <Layer>
-        <Text text="Try to drag shapes" fontSize={15} />
-        <Rect x={20} y={50} width={100} height={100} fill="red" shadowBlur={10} draggable />
-        <Circle x={200} y={100} radius={50} fill="green" draggable />
+        {drawContext.shapes.map((shape) => {
+          if (shape.type === DrawType.FREE) {
+            return (
+              <LineShape
+                key={shape.id}
+                shape={shape}
+                draggable={drawContext.type === DrawType.NONE}
+              />
+            );
+          }
+          return null;
+        })}
       </Layer>
     </Stage>
   );
