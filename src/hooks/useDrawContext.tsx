@@ -1,6 +1,6 @@
 import { useAtom } from "jotai";
 import { drawContextAtom } from "@/atom";
-import type { DrawType, Shape } from "@/types";
+import type { DrawType, Shape, ShapeMap } from "@/types";
 
 export const useDrawContext = () => {
   const [drawContext, setDrawContext] = useAtom(drawContextAtom);
@@ -24,6 +24,21 @@ export const useDrawContext = () => {
     }));
   };
 
+  const updateLastShape = <T extends keyof ShapeMap>(
+    _: T,
+    fn: (shape: ShapeMap[T]) => ShapeMap[T],
+  ) => {
+    setDrawContext((prev) => {
+      if (prev.shapes.length === 0) return prev;
+
+      const updatedShapes = [...prev.shapes];
+      const lastIndex = updatedShapes.length - 1;
+      updatedShapes[lastIndex] = fn(updatedShapes[lastIndex] as ShapeMap[T]);
+
+      return { ...prev, shapes: updatedShapes };
+    });
+  };
+
   const onUndo = () => {};
 
   const onRedo = () => {};
@@ -35,6 +50,7 @@ export const useDrawContext = () => {
     setColor,
     addShape,
     removeShape,
+    updateLastShape,
     onUndo,
     onRedo,
   };

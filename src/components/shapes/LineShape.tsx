@@ -17,8 +17,8 @@ export const LineShape = ({ shape, draggable }: Props) => {
   return (
     <Line
       points={shape.points}
-      stroke={shape.color}
-      strokeWidth={5}
+      stroke={shape.stroke}
+      strokeWidth={shape.strokeWidth}
       lineCap="round"
       lineJoin="round"
       tension={0.2}

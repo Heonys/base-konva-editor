@@ -7,6 +7,17 @@ type Props = {
 };
 
 export const RectShape = ({ shape, draggable }: Props) => {
-  const { x, y, width, height, color } = shape;
-  return <Rect x={x} y={y} width={width} height={height} fill={color} draggable={draggable} />;
+  const { x, y, width, height, fill, stroke } = shape;
+
+  return (
+    <Rect
+      x={x}
+      y={y}
+      width={width}
+      height={height}
+      fill={fill}
+      stroke={stroke}
+      draggable={draggable}
+    />
+  );
 };

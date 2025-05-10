@@ -3,6 +3,8 @@ import { atom } from "jotai";
 
 export const drawContextAtom = atom<DrawContext>({
   type: DrawType.NONE,
-  color: "#000",
+  fill: "#fff",
+  stroke: "#000",
+  strokeWidth: 5,
   shapes: [],
 });

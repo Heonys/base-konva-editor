@@ -18,6 +18,7 @@ export default tseslint.config({ ignores: ["dist"] }, prettierPlugin, {
   },
   rules: {
     ...reactHooks.configs.recommended.rules,
+    "@typescript-eslint/no-explicit-any": "off",
     "prettier/prettier": "warn",
     "react-refresh/only-export-components": ["warn", { allowConstantExport: true }],
   },

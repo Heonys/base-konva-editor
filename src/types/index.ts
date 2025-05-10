@@ -1,7 +1,7 @@
 export const enum DrawType {
   NONE = "NONE",
   FREE = "FREE",
-  LINE = "LINE ",
+  LINE = "LINE",
   ELLIPSE = "ELLIPSE",
   RECT = "RECT",
   POLYGON = "POLYGON",
@@ -9,7 +9,9 @@ export const enum DrawType {
 
 export type DrawContext = {
   type: DrawType;
-  color: string;
+  fill: string;
+  stroke: string;
+  strokeWidth: number;
   shapes: Shape[];
 };
 
@@ -20,52 +22,42 @@ export type Shape =
   | EllipseShapeType
   | PolygonShapeType;
 
-export type FreeDrawShapeType = {
+export type ShapeMap = {
+  [DrawType.FREE]: FreeDrawShapeType;
+  [DrawType.LINE]: LineShapeType;
+  [DrawType.RECT]: RectShapeType;
+  [DrawType.ELLIPSE]: EllipseShapeType;
+  [DrawType.POLYGON]: PolygonShapeType;
+};
+
+type BaseShape<T extends DrawType> = {
   id: number;
-  type: DrawType.FREE;
-  points: number[];
-  color?: string;
+  type: T;
+  fill?: string;
+  stroke?: string;
   strokeWidth?: number;
   rotation?: number;
   scaleX?: number;
   scaleY?: number;
 };
 
-export type LineShapeType = {
-  id: number;
-  type: DrawType.LINE;
-  points: number[];
-  color?: string;
-  strokeWidth?: number;
-  rotation?: number;
-  scaleX?: number;
-  scaleY?: number;
-};
+export type FreeDrawShapeType = BaseShape<DrawType.FREE> & { points: number[] };
+export type LineShapeType = BaseShape<DrawType.LINE> & { points: number[] };
+export type PolygonShapeType = BaseShape<DrawType.POLYGON> & { points: number[] };
 
-export type RectShapeType = {
-  id: number;
-  type: DrawType.RECT;
+export type RectShapeType = BaseShape<DrawType.RECT> & {
   x: number;
   y: number;
   width: number;
   height: number;
-  color?: string;
+  startX: number;
+  startY: number;
 };
-
-export type EllipseShapeType = {
-  id: number;
-  type: DrawType.ELLIPSE;
+export type EllipseShapeType = BaseShape<DrawType.ELLIPSE> & {
   x: number;
   y: number;
   radiusX: number;
   radiusY: number;
-  color?: string;
-};
-
-export type PolygonShapeType = {
-  id: number;
-  type: DrawType.POLYGON;
-  points: number[];
-  color?: string;
-  strokeWidth?: number;
+  startX: number;
+  startY: number;
 };
