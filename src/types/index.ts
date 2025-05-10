@@ -39,6 +39,7 @@ type BaseShape<T extends DrawType> = {
   rotation?: number;
   scaleX?: number;
   scaleY?: number;
+  isClosed?: boolean;
 };
 
 export type FreeDrawShapeType = BaseShape<DrawType.FREE> & { points: number[] };

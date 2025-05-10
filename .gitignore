@@ -23,4 +23,4 @@ dist-ssr
 *.sln
 *.sw?
 
-_note.md
+__*

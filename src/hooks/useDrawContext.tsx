@@ -39,6 +39,11 @@ export const useDrawContext = () => {
     });
   };
 
+  const getLastShape = () => {
+    const { shapes } = drawContext;
+    return shapes.length > 0 ? shapes[shapes.length - 1] : null;
+  };
+
   const onUndo = () => {};
 
   const onRedo = () => {};
@@ -51,6 +56,7 @@ export const useDrawContext = () => {
     addShape,
     removeShape,
     updateLastShape,
+    getLastShape,
     onUndo,
     onRedo,
   };

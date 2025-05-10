@@ -5,9 +5,10 @@ import { DrawType } from "@/types";
 
 export const useStageHandlers = () => {
   const [isDrawing, setIsDrawing] = useState(false);
+  const [isPolygon, setIsPolygon] = useState(false);
   const currentId = useRef(0);
 
-  const { drawContext, addShape, updateLastShape } = useDrawContext();
+  const { drawContext, addShape, updateLastShape, getLastShape } = useDrawContext();
 
   const onMouseDown = (e: Konva.KonvaEventObject<MouseEvent>) => {
     const { type, fill, stroke, strokeWidth } = drawContext;
@@ -63,14 +64,23 @@ export const useStageHandlers = () => {
         return;
       }
       case DrawType.POLYGON: {
-        addShape({
-          id: currentId.current,
-          type,
-          fill,
-          stroke,
-          strokeWidth,
-          points: [position.x, position.y],
-        });
+        if (!isPolygon) {
+          setIsPolygon(true);
+          addShape({
+            id: currentId.current,
+            type,
+            fill,
+            stroke,
+            strokeWidth,
+            points: [position.x, position.y, position.x, position.y],
+            isClosed: false,
+          });
+        } else {
+          updateLastShape(type, (shape) => ({
+            ...shape,
+            points: [...shape.points, position.x, position.y],
+          }));
+        }
         return;
       }
     }
@@ -133,12 +143,27 @@ export const useStageHandlers = () => {
         return;
       }
       case DrawType.POLYGON: {
+        updateLastShape(currentShape.type, (shape) => {
+          const points = [...shape.points];
+          points[points.length - 2] = position.x;
+          points[points.length - 1] = position.y;
+          return { ...shape, points };
+        });
         return;
       }
     }
   };
 
   const onMouseUp = () => {
+    if (isPolygon) {
+      const shape = getLastShape();
+      if (shape?.isClosed) {
+        setIsPolygon(false);
+        setIsDrawing(false);
+        currentId.current++;
+      }
+      return;
+    }
     setIsDrawing(false);
     currentId.current++;
   };

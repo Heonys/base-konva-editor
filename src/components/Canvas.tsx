@@ -3,13 +3,13 @@ import Konva from "konva";
 import { Stage, Layer } from "react-konva";
 
 import { useStageHandlers, useDrawContext } from "@/hooks";
-import { LineShape, RectShape, EllipseShape } from "@/components/shapes";
+import { LineShape, RectShape, EllipseShape, PolygonShape } from "@/components/shapes";
 import { DrawType } from "@/types";
 
 export const Canvas = () => {
   const stageRef = useRef<Konva.Stage>(null);
   const handlers = useStageHandlers();
-  const { drawContext } = useDrawContext();
+  const { drawContext, updateLastShape } = useDrawContext();
 
   return (
     <Stage ref={stageRef} width={window.innerWidth} height={window.innerHeight} {...handlers}>
@@ -27,6 +27,23 @@ export const Canvas = () => {
             }
             case DrawType.ELLIPSE: {
               return <EllipseShape key={shape.id} shape={shape} draggable={draggable} />;
+            }
+            case DrawType.POLYGON: {
+              return (
+                <PolygonShape
+                  key={shape.id}
+                  shape={shape}
+                  draggable={draggable}
+                  onClose={() => {
+                    updateLastShape(shape.type, (shape) => {
+                      const points = [...shape.points];
+                      points[points.length - 2] = shape.points[0];
+                      points[points.length - 1] = shape.points[1];
+                      return { ...shape, points, isClosed: true };
+                    });
+                  }}
+                />
+              );
             }
           }
         })}
