@@ -4,6 +4,7 @@ import { TfiLayoutLineSolid } from "react-icons/tfi";
 import { IoEllipseOutline, IoSquareOutline, IoShapesOutline } from "react-icons/io5";
 import { LuEraser, LuUndo2, LuRedo2 } from "react-icons/lu";
 import { RiCursorFill } from "react-icons/ri";
+import { RxBorderWidth } from "react-icons/rx";
 
 export type IconNames = keyof typeof IconMap;
 const IconMap = {
@@ -16,6 +17,7 @@ const IconMap = {
   ["eraser"]: LuEraser,
   ["undo"]: LuUndo2,
   ["redo"]: LuRedo2,
+  ["stroke"]: RxBorderWidth,
 };
 
 type Props = {

@@ -9,10 +9,6 @@ export const useDrawContext = () => {
     setDrawContext((prev) => ({ ...prev, type }));
   };
 
-  const setColor = (color: string) => {
-    setDrawContext((prev) => ({ ...prev, color }));
-  };
-
   const addShape = (shape: Shape) => {
     setDrawContext((prev) => ({ ...prev, shapes: [...prev.shapes, shape] }));
   };
@@ -52,7 +48,6 @@ export const useDrawContext = () => {
     setDrawContext,
     drawContext,
     setDrawType,
-    setColor,
     addShape,
     removeShape,
     updateLastShape,

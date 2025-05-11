@@ -10,10 +10,11 @@
     "preview": "vite preview"
   },
   "dependencies": {
-    "@headlessui/react": "^2.2.2",
     "@tailwindcss/vite": "^4.1.5",
+    "@uiw/react-color-block": "^2.5.4",
     "jotai": "^2.12.4",
     "konva": "^9.3.20",
+    "rc-slider": "^11.1.8",
     "react": "^19.1.0",
     "react-dom": "^19.1.0",
     "react-icons": "^5.5.0",
