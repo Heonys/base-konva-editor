@@ -3,21 +3,10 @@ import type { RectShapeType } from "@/types";
 
 type Props = {
   shape: RectShapeType;
-  draggable: boolean;
 };
 
-export const RectShape = ({ shape, draggable }: Props) => {
+export const RectShape = ({ shape }: Props) => {
   const { x, y, width, height, fill, stroke } = shape;
 
-  return (
-    <Rect
-      x={x}
-      y={y}
-      width={width}
-      height={height}
-      fill={fill}
-      stroke={stroke}
-      draggable={draggable}
-    />
-  );
+  return <Rect x={x} y={y} width={width} height={height} fill={fill} stroke={stroke} />;
 };

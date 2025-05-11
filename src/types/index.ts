@@ -31,7 +31,7 @@ export type ShapeMap = {
 };
 
 type BaseShape<T extends DrawType> = {
-  id: number;
+  id: string;
   type: T;
   fill?: string;
   stroke?: string;

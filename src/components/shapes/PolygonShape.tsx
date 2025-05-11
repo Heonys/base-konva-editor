@@ -4,11 +4,10 @@ import type { Vector2d } from "konva/lib/types";
 
 type Props = {
   shape: PolygonShapeType;
-  draggable: boolean;
   onClose: () => void;
 };
 
-export const PolygonShape = ({ shape, draggable, onClose }: Props) => {
+export const PolygonShape = ({ shape, onClose }: Props) => {
   const { points, stroke, strokeWidth, fill, isClosed } = shape;
 
   const numberToVector = (points: number[]): Vector2d[] => {
@@ -24,7 +23,7 @@ export const PolygonShape = ({ shape, draggable, onClose }: Props) => {
   };
 
   return (
-    <Group draggable={draggable}>
+    <Group>
       <Line
         points={points}
         fill={fill}
@@ -39,7 +38,7 @@ export const PolygonShape = ({ shape, draggable, onClose }: Props) => {
           key={index}
           x={point.x}
           y={point.y}
-          radius={5}
+          radius={6}
           fill="white"
           stroke="dodgerblue"
           onMouseDown={(e) => {

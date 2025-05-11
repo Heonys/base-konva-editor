@@ -1,28 +1,33 @@
+import { useState } from "react";
+import { nanoid } from "nanoid";
 import type Konva from "konva";
-import { useDrawContext } from "./useDrawContext";
-import { useRef, useState } from "react";
+import { useDrawContext, useHistory } from "@/hooks";
 import { DrawType } from "@/types";
 
 export const useStageHandlers = () => {
   const [isDrawing, setIsDrawing] = useState(false);
   const [isPolygon, setIsPolygon] = useState(false);
-  const currentId = useRef(0);
 
   const { drawContext, addShape, updateLastShape, getLastShape } = useDrawContext();
+  const { pushUndoStack, clearRedoStack } = useHistory();
 
   const onMouseDown = (e: Konva.KonvaEventObject<MouseEvent>) => {
     const { type, fill, stroke, strokeWidth } = drawContext;
+    if (type === DrawType.NONE) return;
 
     setIsDrawing(true);
     const stage = e.target.getStage()!;
     const position = stage.getPointerPosition();
     if (!position) return;
 
+    const id = nanoid(10);
+
     switch (type) {
       case DrawType.FREE:
       case DrawType.LINE: {
+        pushUndoStack(drawContext.shapes);
         addShape({
-          id: currentId.current,
+          id,
           type,
           fill,
           stroke,
@@ -32,8 +37,9 @@ export const useStageHandlers = () => {
         return;
       }
       case DrawType.RECT: {
+        pushUndoStack(drawContext.shapes);
         addShape({
-          id: currentId.current,
+          id,
           type,
           fill,
           stroke,
@@ -48,8 +54,9 @@ export const useStageHandlers = () => {
         return;
       }
       case DrawType.ELLIPSE: {
+        pushUndoStack(drawContext.shapes);
         addShape({
-          id: currentId.current,
+          id,
           type,
           fill,
           stroke,
@@ -66,8 +73,9 @@ export const useStageHandlers = () => {
       case DrawType.POLYGON: {
         if (!isPolygon) {
           setIsPolygon(true);
+          pushUndoStack(drawContext.shapes);
           addShape({
-            id: currentId.current,
+            id,
             type,
             fill,
             stroke,
@@ -94,7 +102,7 @@ export const useStageHandlers = () => {
     if (!position) return;
 
     const { shapes } = drawContext;
-    const currentShape = shapes.find((shape) => shape.id === currentId.current);
+    const currentShape = shapes.find((shape) => shape.id === getLastShape()!.id);
     if (!currentShape) return;
 
     switch (currentShape.type) {
@@ -160,12 +168,12 @@ export const useStageHandlers = () => {
       if (shape?.isClosed) {
         setIsPolygon(false);
         setIsDrawing(false);
-        currentId.current++;
+        clearRedoStack();
       }
       return;
     }
+    clearRedoStack();
     setIsDrawing(false);
-    currentId.current++;
   };
 
   return {

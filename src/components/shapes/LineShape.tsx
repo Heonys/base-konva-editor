@@ -3,10 +3,9 @@ import type { FreeDrawShapeType, LineShapeType } from "@/types";
 
 type Props = {
   shape: FreeDrawShapeType | LineShapeType;
-  draggable: boolean;
 };
 
-export const LineShape = ({ shape, draggable }: Props) => {
+export const LineShape = ({ shape }: Props) => {
   const handleMouseEnter = () => {
     document.body.style.cursor = "pointer";
   };
@@ -22,7 +21,6 @@ export const LineShape = ({ shape, draggable }: Props) => {
       lineCap="round"
       lineJoin="round"
       tension={0.2}
-      draggable={draggable}
       onMouseEnter={handleMouseEnter}
       onMouseLeave={handleMouseLeave}
     />

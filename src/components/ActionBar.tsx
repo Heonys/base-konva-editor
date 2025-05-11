@@ -1,6 +1,6 @@
 import { ActionButton, ColorPicker, SliderButton } from "@/components";
 import { DrawType } from "@/types";
-import { useDrawContext } from "@/hooks";
+import { useDrawContext, useHistory } from "@/hooks";
 import type { IconNames } from "@/icons/StaticIcon";
 
 const actionRouter: { name: IconNames; type: DrawType }[] = [
@@ -13,13 +13,15 @@ const actionRouter: { name: IconNames; type: DrawType }[] = [
 ];
 
 export const ActionBar = () => {
-  const { drawContext, setDrawContext, setDrawType } = useDrawContext();
+  const { drawContext, setDrawContext, setDrawType, clearContext } = useDrawContext();
+  const { undo, redo } = useHistory();
 
   return (
     <div className="fixed left-1/2 top-6 -translate-x-1/2 flex gap-3 select-none">
       <div className="flex p-2 pb-5 rounded-xl shadow-xl border border-black/20 bg-white gap-2">
-        <ActionButton iconName="undo" label="undo" />
-        <ActionButton iconName="redo" label="redo" />
+        <ActionButton iconName="undo" label="undo" onClick={undo} />
+        <ActionButton iconName="redo" label="redo" onClick={redo} />
+        <ActionButton iconName="refresh" label="clear" onClick={clearContext} />
       </div>
       <div className="flex gap-4 p-2 pb-5 rounded-xl shadow-xl border border-black/20 bg-white">
         {actionRouter.map(({ name, type }) => {

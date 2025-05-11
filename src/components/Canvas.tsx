@@ -15,25 +15,22 @@ export const Canvas = () => {
     <Stage ref={stageRef} width={window.innerWidth} height={window.innerHeight} {...handlers}>
       <Layer>
         {drawContext.shapes.map((shape) => {
-          const draggable = drawContext.type === DrawType.NONE;
-
           switch (shape.type) {
             case DrawType.FREE:
             case DrawType.LINE: {
-              return <LineShape key={shape.id} shape={shape} draggable={draggable} />;
+              return <LineShape key={shape.id} shape={shape} />;
             }
             case DrawType.RECT: {
-              return <RectShape key={shape.id} shape={shape} draggable={draggable} />;
+              return <RectShape key={shape.id} shape={shape} />;
             }
             case DrawType.ELLIPSE: {
-              return <EllipseShape key={shape.id} shape={shape} draggable={draggable} />;
+              return <EllipseShape key={shape.id} shape={shape} />;
             }
             case DrawType.POLYGON: {
               return (
                 <PolygonShape
                   key={shape.id}
                   shape={shape}
-                  draggable={draggable}
                   onClose={() => {
                     updateLastShape(shape.type, (shape) => {
                       const points = [...shape.points];

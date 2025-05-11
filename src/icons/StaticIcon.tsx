@@ -5,6 +5,7 @@ import { IoEllipseOutline, IoSquareOutline, IoShapesOutline } from "react-icons/
 import { LuEraser, LuUndo2, LuRedo2 } from "react-icons/lu";
 import { RiCursorFill } from "react-icons/ri";
 import { RxBorderWidth } from "react-icons/rx";
+import { IoMdRefresh } from "react-icons/io";
 
 export type IconNames = keyof typeof IconMap;
 const IconMap = {
@@ -18,6 +19,7 @@ const IconMap = {
   ["undo"]: LuUndo2,
   ["redo"]: LuRedo2,
   ["stroke"]: RxBorderWidth,
+  ["refresh"]: IoMdRefresh,
 };
 
 type Props = {

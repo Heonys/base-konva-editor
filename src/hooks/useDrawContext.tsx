@@ -5,19 +5,26 @@ import type { DrawType, Shape, ShapeMap } from "@/types";
 export const useDrawContext = () => {
   const [drawContext, setDrawContext] = useAtom(drawContextAtom);
 
+  const clearContext = () => {
+    setDrawContext((prev) => ({ ...prev, shapes: [] }));
+  };
+
   const setDrawType = (type: DrawType) => {
     setDrawContext((prev) => ({ ...prev, type }));
   };
 
   const addShape = (shape: Shape) => {
-    setDrawContext((prev) => ({ ...prev, shapes: [...prev.shapes, shape] }));
+    setDrawContext((prev) => {
+      const shapes = [...prev.shapes, shape];
+      return { ...prev, shapes };
+    });
   };
 
-  const removeShape = (id: number) => {
-    setDrawContext((prev) => ({
-      ...prev,
-      shapes: prev.shapes.filter((shape) => shape.id !== id),
-    }));
+  const removeShape = (id: string) => {
+    setDrawContext((prev) => {
+      const shapes = prev.shapes.filter((shape) => shape.id !== id);
+      return { ...prev, shapes };
+    });
   };
 
   const updateLastShape = <T extends keyof ShapeMap>(
@@ -30,7 +37,6 @@ export const useDrawContext = () => {
       const updatedShapes = [...prev.shapes];
       const lastIndex = updatedShapes.length - 1;
       updatedShapes[lastIndex] = fn(updatedShapes[lastIndex] as ShapeMap[T]);
-
       return { ...prev, shapes: updatedShapes };
     });
   };
@@ -40,19 +46,14 @@ export const useDrawContext = () => {
     return shapes.length > 0 ? shapes[shapes.length - 1] : null;
   };
 
-  const onUndo = () => {};
-
-  const onRedo = () => {};
-
   return {
     setDrawContext,
+    clearContext,
     drawContext,
     setDrawType,
     addShape,
     removeShape,
     updateLastShape,
     getLastShape,
-    onUndo,
-    onRedo,
   };
 };
