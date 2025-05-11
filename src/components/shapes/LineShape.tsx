@@ -1,4 +1,5 @@
 import { Line } from "react-konva";
+
 import type { FreeDrawShapeType, LineShapeType } from "@/types";
 
 type Props = {

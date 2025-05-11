@@ -45,7 +45,6 @@ type BaseShape<T extends DrawType> = {
 export type FreeDrawShapeType = BaseShape<DrawType.FREE> & { points: number[] };
 export type LineShapeType = BaseShape<DrawType.LINE> & { points: number[] };
 export type PolygonShapeType = BaseShape<DrawType.POLYGON> & { points: number[] };
-
 export type RectShapeType = BaseShape<DrawType.RECT> & {
   x: number;
   y: number;

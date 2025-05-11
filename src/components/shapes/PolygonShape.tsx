@@ -1,6 +1,7 @@
 import { Group, Line, Circle } from "react-konva";
-import type { PolygonShapeType } from "@/types";
 import type { Vector2d } from "konva/lib/types";
+
+import type { PolygonShapeType } from "@/types";
 
 type Props = {
   shape: PolygonShapeType;
@@ -30,6 +31,7 @@ export const PolygonShape = ({ shape, onClose }: Props) => {
         stroke={stroke}
         strokeWidth={strokeWidth}
         lineJoin="round"
+        lineCap="round"
         closed={isClosed}
       />
 
@@ -38,7 +40,7 @@ export const PolygonShape = ({ shape, onClose }: Props) => {
           key={index}
           x={point.x}
           y={point.y}
-          radius={6}
+          radius={(strokeWidth ?? 5) + 1}
           fill="white"
           stroke="dodgerblue"
           onMouseDown={(e) => {

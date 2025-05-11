@@ -1,4 +1,4 @@
-import { useRef } from "react";
+import { useEffect, useRef } from "react";
 import Konva from "konva";
 import { Stage, Layer } from "react-konva";
 
@@ -11,8 +11,38 @@ export const Canvas = () => {
   const handlers = useStageHandlers();
   const { drawContext, updateLastShape } = useDrawContext();
 
+  const handleWheel = (e: Konva.KonvaEventObject<WheelEvent>) => {
+    const stage = stageRef.current;
+    if (!stage) return;
+
+    const { deltaY, ctrlKey } = e.evt;
+    if (ctrlKey || e.evt.metaKey) {
+      e.evt.preventDefault();
+      const newZoom = stage.scaleX() + (deltaY < 0 ? 0.1 : -0.1);
+      stage.scale({ x: newZoom, y: newZoom });
+      return;
+    }
+  };
+
+  useEffect(() => {
+    const handleWheel = (e: WheelEvent) => {
+      if (e.ctrlKey || e.deltaY < -1 || e.deltaY > 1) {
+        e.preventDefault();
+      }
+    };
+    window.addEventListener("wheel", handleWheel, { passive: false });
+    return () => window.removeEventListener("wheel", handleWheel);
+  }, []);
+
   return (
-    <Stage ref={stageRef} width={window.innerWidth} height={window.innerHeight} {...handlers}>
+    <Stage
+      ref={stageRef}
+      width={window.innerWidth}
+      height={window.innerHeight}
+      draggable={drawContext.type === DrawType.NONE}
+      onWheel={handleWheel}
+      {...handlers}
+    >
       <Layer>
         {drawContext.shapes.map((shape) => {
           switch (shape.type) {

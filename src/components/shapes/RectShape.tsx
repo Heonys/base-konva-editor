@@ -1,4 +1,5 @@
 import { Rect } from "react-konva";
+
 import type { RectShapeType } from "@/types";
 
 type Props = {

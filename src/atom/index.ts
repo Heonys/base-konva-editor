@@ -1,6 +1,7 @@
-import { DrawType, type DrawContext, type Shape } from "@/types";
 import { atom } from "jotai";
 import { atomWithStorage } from "jotai/utils";
+
+import { DrawType, type DrawContext, type Shape } from "@/types";
 
 const DEFAULT_CONTEXT = {
   type: DrawType.NONE,

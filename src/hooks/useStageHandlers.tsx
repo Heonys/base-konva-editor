@@ -1,6 +1,8 @@
 import { useState } from "react";
 import { nanoid } from "nanoid";
 import type Konva from "konva";
+import type { Vector2d } from "konva/lib/types";
+
 import { useDrawContext, useHistory } from "@/hooks";
 import { DrawType } from "@/types";
 
@@ -11,39 +13,24 @@ export const useStageHandlers = () => {
   const { drawContext, addShape, updateLastShape, getLastShape } = useDrawContext();
   const { pushUndoStack, clearRedoStack } = useHistory();
 
-  const onMouseDown = (e: Konva.KonvaEventObject<MouseEvent>) => {
-    const { type, fill, stroke, strokeWidth } = drawContext;
-    if (type === DrawType.NONE) return;
-
-    setIsDrawing(true);
-    const stage = e.target.getStage()!;
-    const position = stage.getPointerPosition();
-    if (!position) return;
-
+  const createShape = (type: DrawType, position: Vector2d) => {
     const id = nanoid(10);
+    const { fill, stroke, strokeWidth } = drawContext;
+    const baseShape = { id, fill, stroke, strokeWidth };
 
     switch (type) {
       case DrawType.FREE:
       case DrawType.LINE: {
-        pushUndoStack(drawContext.shapes);
-        addShape({
-          id,
+        return addShape({
+          ...baseShape,
           type,
-          fill,
-          stroke,
-          strokeWidth,
           points: [position.x, position.y],
         });
-        return;
       }
       case DrawType.RECT: {
-        pushUndoStack(drawContext.shapes);
-        addShape({
-          id,
+        return addShape({
+          ...baseShape,
           type,
-          fill,
-          stroke,
-          strokeWidth,
           x: position.x,
           y: position.y,
           width: 0,
@@ -51,16 +38,11 @@ export const useStageHandlers = () => {
           startX: position.x,
           startY: position.y,
         });
-        return;
       }
       case DrawType.ELLIPSE: {
-        pushUndoStack(drawContext.shapes);
-        addShape({
-          id,
+        return addShape({
+          ...baseShape,
           type,
-          fill,
-          stroke,
-          strokeWidth,
           x: position.x,
           y: position.y,
           radiusX: 0,
@@ -68,28 +50,40 @@ export const useStageHandlers = () => {
           startX: position.x,
           startY: position.y,
         });
-        return;
       }
       case DrawType.POLYGON: {
-        if (!isPolygon) {
-          setIsPolygon(true);
-          pushUndoStack(drawContext.shapes);
-          addShape({
-            id,
-            type,
-            fill,
-            stroke,
-            strokeWidth,
-            points: [position.x, position.y, position.x, position.y],
-            isClosed: false,
-          });
-        } else {
-          updateLastShape(type, (shape) => ({
-            ...shape,
-            points: [...shape.points, position.x, position.y],
-          }));
-        }
-        return;
+        return addShape({
+          ...baseShape,
+          type,
+          points: [position.x, position.y, position.x, position.y],
+          isClosed: false,
+        });
+      }
+    }
+  };
+
+  const onMouseDown = (e: Konva.KonvaEventObject<MouseEvent>) => {
+    const { type } = drawContext;
+    if (type === DrawType.NONE) return;
+
+    setIsDrawing(true);
+    const stage = e.target.getStage()!;
+    const position = stage.getRelativePointerPosition();
+    if (!position) return;
+
+    if (type !== DrawType.POLYGON) {
+      pushUndoStack(drawContext.shapes);
+      createShape(type, position);
+    } else {
+      if (!isPolygon) {
+        setIsPolygon(true);
+        pushUndoStack(drawContext.shapes);
+        createShape(type, position);
+      } else {
+        updateLastShape(type, (shape) => ({
+          ...shape,
+          points: [...shape.points, position.x, position.y],
+        }));
       }
     }
   };
@@ -98,7 +92,7 @@ export const useStageHandlers = () => {
     if (!isDrawing) return;
 
     const stage = e.target.getStage()!;
-    const position = stage.getPointerPosition();
+    const position = stage.getRelativePointerPosition();
     if (!position) return;
 
     const { shapes } = drawContext;

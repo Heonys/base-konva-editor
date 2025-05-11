@@ -1,5 +1,5 @@
 {
-  "name": "svg-editor",
+  "name": "base-konva-editor",
   "private": true,
   "version": "0.0.0",
   "type": "module",

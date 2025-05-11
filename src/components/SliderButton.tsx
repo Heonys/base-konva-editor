@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 import Slider from "rc-slider";
+
 import { ActionButton } from "@/components";
 
 type Props = {

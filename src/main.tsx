@@ -1,6 +1,6 @@
 import { createRoot } from "react-dom/client";
-import App from "./App.tsx";
 import { ErrorBoundary } from "@/components";
+import App from "./App.tsx";
 
 import "rc-slider/assets/index.css";
 import "./style.css";

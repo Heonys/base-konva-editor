@@ -1,6 +1,7 @@
 import type { ComponentPropsWithoutRef } from "react";
-import { StaticIcon, type IconNames } from "@/icons/StaticIcon";
 import { twMerge } from "tailwind-merge";
+
+import { StaticIcon, type IconNames } from "@/icons/StaticIcon";
 
 type Props = {
   iconName: IconNames;
@@ -11,7 +12,7 @@ type Props = {
 
 export const ActionButton = ({
   iconName,
-  size = 25,
+  size = 27,
   hover = true,
   className,
   label,

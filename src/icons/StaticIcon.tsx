@@ -6,6 +6,7 @@ import { LuEraser, LuUndo2, LuRedo2 } from "react-icons/lu";
 import { RiCursorFill } from "react-icons/ri";
 import { RxBorderWidth } from "react-icons/rx";
 import { IoMdRefresh } from "react-icons/io";
+import { MdErrorOutline } from "react-icons/md";
 
 export type IconNames = keyof typeof IconMap;
 const IconMap = {
@@ -20,6 +21,7 @@ const IconMap = {
   ["redo"]: LuRedo2,
   ["stroke"]: RxBorderWidth,
   ["refresh"]: IoMdRefresh,
+  ["error"]: MdErrorOutline,
 };
 
 type Props = {

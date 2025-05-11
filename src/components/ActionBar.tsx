@@ -17,7 +17,7 @@ export const ActionBar = () => {
   const { undo, redo } = useHistory();
 
   return (
-    <div className="fixed left-1/2 top-6 -translate-x-1/2 flex gap-3 select-none">
+    <div className="fixed left-1/2 top-6 -translate-x-1/2 flex gap-3 select-none z-50">
       <div className="flex p-2 pb-5 rounded-xl shadow-xl border border-black/20 bg-white gap-2">
         <ActionButton iconName="undo" label="undo" onClick={undo} />
         <ActionButton iconName="redo" label="redo" onClick={redo} />

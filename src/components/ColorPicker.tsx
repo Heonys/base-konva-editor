@@ -1,5 +1,5 @@
-import Block from "@uiw/react-color-block";
 import { useEffect, useRef, useState } from "react";
+import Block from "@uiw/react-color-block";
 
 type Props = {
   color: string;
