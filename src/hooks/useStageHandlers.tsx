@@ -80,7 +80,7 @@ export const useStageHandlers = () => {
         pushUndoStack(drawContext.shapes);
         createShape(type, position);
       } else {
-        updateLastShape(type, (shape) => ({
+        updateLastShape<typeof type>((shape) => ({
           ...shape,
           points: [...shape.points, position.x, position.y],
         }));
@@ -101,21 +101,21 @@ export const useStageHandlers = () => {
 
     switch (currentShape.type) {
       case DrawType.FREE: {
-        updateLastShape(currentShape.type, (shape) => ({
+        updateLastShape<typeof currentShape.type>((shape) => ({
           ...shape,
           points: [...shape.points, position.x, position.y],
         }));
         return;
       }
       case DrawType.LINE: {
-        updateLastShape(currentShape.type, (shape) => ({
+        updateLastShape<typeof currentShape.type>((shape) => ({
           ...shape,
           points: [shape.points[0], shape.points[1], position.x, position.y],
         }));
         return;
       }
       case DrawType.RECT: {
-        updateLastShape(currentShape.type, (shape) => {
+        updateLastShape<typeof currentShape.type>((shape) => {
           const dx = position.x - shape.startX;
           const dy = position.y - shape.startY;
           return {
@@ -129,7 +129,7 @@ export const useStageHandlers = () => {
         return;
       }
       case DrawType.ELLIPSE: {
-        updateLastShape(currentShape.type, (shape) => {
+        updateLastShape<typeof currentShape.type>((shape) => {
           const { startX, startY } = shape;
           const dx = position.x - startX;
           const dy = position.y - startY;
@@ -145,7 +145,7 @@ export const useStageHandlers = () => {
         return;
       }
       case DrawType.POLYGON: {
-        updateLastShape(currentShape.type, (shape) => {
+        updateLastShape<typeof currentShape.type>((shape) => {
           const points = [...shape.points];
           points[points.length - 2] = position.x;
           points[points.length - 1] = position.y;

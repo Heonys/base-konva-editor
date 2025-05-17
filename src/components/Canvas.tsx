@@ -62,7 +62,7 @@ export const Canvas = () => {
                   key={shape.id}
                   shape={shape}
                   onClose={() => {
-                    updateLastShape(shape.type, (shape) => {
+                    updateLastShape<typeof shape.type>((shape) => {
                       const points = [...shape.points];
                       points[points.length - 2] = shape.points[0];
                       points[points.length - 1] = shape.points[1];
